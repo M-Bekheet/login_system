@@ -1,0 +1,29 @@
+{
+  "name": "login_system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "server": "nodemon app --ignore './client/",
+    "dev": "concurrently \"cd client/ && npm run start\" \"npm run server\" "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.3",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.1",
+    "concurrently": "^6.3.0",
+    "morgan": "^1.10.0"
+  }
+}
