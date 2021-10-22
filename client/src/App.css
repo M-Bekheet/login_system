@@ -11,6 +11,8 @@
 
 body {
   margin: 0;
+  overflow-y: visibile;
+  height: 100%;
 }
 
 .App {
@@ -22,8 +24,12 @@ body {
 }
 
 .sidebar {
+  position: relative;
+  left: 0;
+  top:0;
+  bottom: 0;
   width: 256px;
-  height: 100vh;
+  min-height: max(100%, 100vh);
   padding: 60px 0;
 }
 

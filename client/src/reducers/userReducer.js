@@ -21,8 +21,6 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case USER_LOADING:
-      console.log('####USER LOADING')
-      console.log(state);
       return {
         ...state,
         isLoading: true,
@@ -44,6 +42,7 @@ export default function userReducer(state = initialState, action) {
         isAuth: true,
         isLoading: false,
       };
+      console.log(newState)
       return {
         ...state,
         ...action.payload,
@@ -54,8 +53,8 @@ export default function userReducer(state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case AUTH_ERROR:
-      console.log("clearing token", action.type);
       localStorage.removeItem("user_token");
+      if (action.type === LOGIN_FAIL) { console.log('LOGIN FAIL USER'); console.log(state); }
       return {
         ...state,
         user: null,

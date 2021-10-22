@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { login } from "../../actions/userActions";
 import { clearErrors } from "../../actions/errorActions";
@@ -13,17 +13,15 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const handleSubmit = () => {
-    console.log(props)
-    console.log(password);
     props.login({ email, password });
+    props.handleErrMsg()
   };
 
 
 
-
   const handleInputChange = ({ target }) => {
-    console.log(target.value);
     if (target.name === "email") setEmail(target.value);
     else if (target.name === "password") setPassword(target.value);
   };

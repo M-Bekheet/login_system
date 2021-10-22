@@ -9,7 +9,7 @@ const isAuth = (req, res, next) => {
   log(chalk.red(token));
   // Check for token
   if (!token)
-    return res.status(401).json({ msg: "Authorization denied. No Token!" });
+    return res.status(401).send({ msg: "Authorization denied. No Token!" });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

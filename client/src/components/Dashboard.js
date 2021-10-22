@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import Sidebar from "./Sidebar";
 import Profile from "./User/Profile";
 import Timeline from "./User/Timeline";
-import { Col, Row, Anchor, Spin, Space } from "antd";
+import { Col, Row, Anchor, Spin, Space, message } from "antd";
 
 const { Link } = Anchor;
 
@@ -11,14 +11,11 @@ const Dashboard = (props) => {
   const [shownlayout, setshownlayout] = useState("Timeline");
 
   const handleLayoutChange = (layout) => {
-    console.log("layout", layout);
     setshownlayout(layout);
   };
 
-  useEffect(() => {
-    console.log('isloading', props.isLoading)
-    console.log(props.user);
-  })
+
+
 
   console.log(shownlayout);
   return props.user.isAuth ? (
@@ -50,7 +47,7 @@ const Dashboard = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  isloading: state.user.isLoading
+  isloading: state.user.isLoading,
 });
 
 export default connect(mapStateToProps, null)(Dashboard);

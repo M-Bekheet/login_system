@@ -22,6 +22,8 @@ export const loadUser = () => (dispatch, getState) => {
   axios
     .get("http://localhost:8080/api/users/auth", tokenConfig(getState))
     .then((res) => {
+      console.log("$$$$LOADED")
+      console.log(res.data)
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -66,7 +68,7 @@ export const register =
           });
         })
         .catch(({ response }) => {
-          dispatch(returnErrors(response.data, response.status, "Register Fail"));
+          dispatch(returnErrors(response.data, response.status, REGISTER_FAIL));
           dispatch({
             type: REGISTER_FAIL,
           });
@@ -101,7 +103,7 @@ export const login =
           });
         })
         .catch(({ response }) => {
-          dispatch(returnErrors(response.data, response.status, "Login Fail"));
+          dispatch(returnErrors(response.data, response.status, LOGIN_FAIL));
           dispatch({
             type: LOGIN_FAIL,
           });
@@ -126,7 +128,7 @@ export const updateProfile = (userInfo) => (dispatch, getState) => {
       });
     })
     .catch(({ response }) => {
-      dispatch(returnErrors(response.data, response.status, "Update Fail"));
+      dispatch(returnErrors(response.data, response.status, UPDATE_FAIL));
       dispatch({
         type: UPDATE_FAIL,
       });
@@ -144,9 +146,7 @@ export const logout = () => ({ type: LOGOUT_SUCCESS });
  */
 
 export const tokenConfig = (getState) => {
-  console.log("get state");
-  console.log(getState());
-  console.log("state", getState());
+
   const token = getState().user.token;
 
   const config = {

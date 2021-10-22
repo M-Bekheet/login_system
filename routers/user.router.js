@@ -18,19 +18,15 @@ router.post("/register", async (req, res, next) => {
     email = email.toLowerCase();
 
     if (!firstName || !lastName || !password || !email)
-      return res.status(400).send({
-        msg: "Please enter all fields.",
-      });
+      return res.status(400).send("Please enter all fields.");
     if (password.length < 6)
-      return res.status(400).send({
-        msg: "Please make sure that your password length is longer than 5 letters.",
-      });
+      return res.status(400).send("Please make sure that your password length is longer than 5 letters.");
 
     password = await bcrypt.hash(password, 8);
 
     const foundUser = await User.findOne({ email });
     if (foundUser) {
-      return res.status(400).send({ msg: "User is already exist." });
+      return res.status(400).send("User is already exist.");
     }
 
     const user = new User({
@@ -62,20 +58,20 @@ router.post("/register", async (req, res, next) => {
     );
   } catch (err) {
     log(chalk.red(err));
-    res.status(400).send({ msg: "User not created" });
+    res.status(400).send("User not created");
   }
 });
 
 // Sign in user and send their token
 router.post("/login", async (req, res) => {
   try {
-    let { firstName = "", lastName = "", email = "", password = "" } = req.body;
+    let { email = "", password = "" } = req.body;
 
     email = email.toLowerCase();
 
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).send({ msg: "User not exist." });
+    if (!user) return res.status(400).send("User not exist.");
 
     const isMatch = await bcrypt.compare(password, user.password);
 
@@ -99,7 +95,7 @@ router.post("/login", async (req, res) => {
             phone: user.phone,
             country: user.country,
             gender: user.gender,
-          },
+          }
         });
       }
     );
@@ -149,14 +145,10 @@ router.patch("/", isAuth, async (req, res, next) => {
       !city ||
       !country
     )
-      return res.status(400).send({
-        msg: "Please enter all fields.",
-      });
+      return res.status(400).send("Please enter all fields.");
 
     if (password.length < 6)
-      return res.status(400).send({
-        msg: "Please make sure that your password length is longer than 5 letters.",
-      });
+      return res.status(400).send("Please make sure that your password length is longer than 5 letters.");
 
     update.password = await bcrypt.hash(password, 8);
 
@@ -186,7 +178,7 @@ router.patch("/", isAuth, async (req, res, next) => {
     );
   } catch (err) {
     log(chalk.red(err));
-    res.status(400).send({ msg: "User not updated" });
+    res.status(400).send("User not updated");
   }
 });
 

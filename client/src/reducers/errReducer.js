@@ -1,12 +1,14 @@
 import { GET_ERRORS, CLEAR_ERRORS } from "../actions/types";
 
 const initialState = {
-  msg: {},
+  msg: null,
   status: null,
   id: null,
 };
 
 export default function errReducer(state = initialState, action) {
+  console.log('ERR REDUCER');
+  console.log(action.type);
   switch (action.type) {
     case GET_ERRORS:
       return {
@@ -17,6 +19,7 @@ export default function errReducer(state = initialState, action) {
     case CLEAR_ERRORS:
       return initialState;
     default:
-      return state;
+      console.log('ERROR REDUCER DEFAULT', action);
+      return initialState;
   }
 }

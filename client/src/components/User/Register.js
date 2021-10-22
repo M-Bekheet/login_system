@@ -24,12 +24,12 @@ const Register = (props) => {
 
 
   useEffect(() => {
-    console.log('isloading', props.isLoading)
     console.log(props.user);
   })
 
   const handleSubmit = (e) => {
     props.register({ firstName, lastName, email, password });
+    props.handleErrMsg()
   };
 
   return (

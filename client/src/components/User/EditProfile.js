@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { updateProfile } from "../../actions/userActions";
-import { Form, Input, Button, Anchor, Radio } from "antd";
+import { Form, Input, Button, Radio } from "antd";
 
-const { Link } = Anchor;
 
 const EditProfile = ({ user, updateProfile }) => {
   const [firstName, setFirstName] = useState(user.user.firstName);
@@ -14,12 +13,9 @@ const EditProfile = ({ user, updateProfile }) => {
   const [gender, setGender] = useState(user.user.gender);
   const [city, setCity] = useState(user.user.city);
   const [country, setCountry] = useState(user.user.country);
-  const [addrState, setAddrState] = useState(user.user.state);
 
   console.log(user.user.gender);
-  // console.log("fn", firstName);
   const handleInputChange = ({ target }) => {
-    console.log(target.value, gender);
     if (target.name === "firstName") setFirstName(target.value);
     else if (target.name === "lastName") setLastName(target.value);
     else if (target.name === "phone") setPhone(target.value);
@@ -28,9 +24,7 @@ const EditProfile = ({ user, updateProfile }) => {
     else if (target.name === "country") setCountry(target.value);
     else if (target.name === "email") setEmail(target.value);
     else if (target.value === "Female" || target.value == "Male") {
-      console.log(target.value);
       setGender(target.value);
-      // console.log("new", gender);
     }
   };
 
@@ -44,7 +38,6 @@ const EditProfile = ({ user, updateProfile }) => {
       phone,
       gender,
       city,
-      state: addrState,
       country,
     });
   };
@@ -60,7 +53,6 @@ const EditProfile = ({ user, updateProfile }) => {
         Country: country ? country : "",
         City: city ? city : "",
         Gender: gender ? gender : "",
-        ["Address State"]: addrState,
         ["Email"]: email,
       }}
     >

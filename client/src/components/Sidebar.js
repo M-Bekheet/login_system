@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { logout } from "../actions/userActions";
 import { Menu, Anchor, Button } from "antd";
-import { MenuFoldOutlined, UserOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, UserOutlined, LoginOutlined } from "@ant-design/icons";
 
 const { Link } = Anchor;
 
 const Sidebar = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const handleLogout = (e) => {
-    props.logout();
-  };
 
   const handleResize = () => {
     if (window.innerWidth <= 768) {
@@ -21,12 +18,26 @@ const Sidebar = (props) => {
     }
   };
 
+  useEffect(() => {
+    handleResize()
+    return () => { //clean up event listener onUnmount
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+
   window.addEventListener("resize", handleResize);
 
   const handleSelect = (e) => {
     if (e.key === "1") props.handleLayoutChange("Timeline");
     else if (e.key === "2") props.handleLayoutChange("Profile");
   };
+
+  const handleMenuClick = e => {
+    if (e.key === '3') {
+      props.logout();
+    }
+  }
 
   return (
     <>
@@ -38,6 +49,7 @@ const Sidebar = (props) => {
         theme="dark"
         inlineCollapsed={isCollapsed}
         onSelect={handleSelect}
+        onClick={handleMenuClick}
       >
         <Menu.Item key="1" icon={<MenuFoldOutlined />}>
           TimeLine
@@ -45,10 +57,8 @@ const Sidebar = (props) => {
         <Menu.Item key="2" icon={<UserOutlined />}>
           Profile
         </Menu.Item>
-        <Menu.Item key="3" className="center logout-btn">
-          <Anchor onClick={handleLogout}>
-            <Link href="#" title="Logout" />
-          </Anchor>
+        <Menu.Item key="3" icon={<LoginOutlined />} className="logout-btn">
+          Logout
         </Menu.Item>
       </Menu>
     </>
