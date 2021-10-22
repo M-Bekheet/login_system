@@ -43,32 +43,35 @@ export const loadUser = () => (dispatch, getState) => {
  */
 export const register =
   ({ firstName, lastName, email, password }) =>
-  (dispatch) => {
-    // Headers
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    (dispatch) => {
+
+      dispatch({ type: USER_LOADING });
+
+      // Headers
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      //converting `Request` body to string
+      const body = JSON.stringify({ firstName, lastName, email, password });
+
+      axios
+        .post("http://localhost:8080/api/users/register", body, config)
+        .then((res) => {
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: res.data,
+          });
+        })
+        .catch(({ response }) => {
+          dispatch(returnErrors(response.data, response.status, "Register Fail"));
+          dispatch({
+            type: REGISTER_FAIL,
+          });
+        });
     };
-
-    //converting `Request` body to string
-    const body = JSON.stringify({ firstName, lastName, email, password });
-
-    axios
-      .post("http://localhost:8080/api/users/register", body, config)
-      .then((res) => {
-        dispatch({
-          type: REGISTER_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(({ response }) => {
-        dispatch(returnErrors(response.data, response.status, "Register Fail"));
-        dispatch({
-          type: REGISTER_FAIL,
-        });
-      });
-  };
 
 /*
  *** User Login
@@ -76,50 +79,43 @@ export const register =
 
 export const login =
   ({ email, password }) =>
-  (dispatch) => {
-    // Headers
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    (dispatch) => {
+
+      dispatch({ type: USER_LOADING });
+      // Headers
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      //converting `Request` body to string
+      const body = JSON.stringify({ email, password });
+
+      axios
+        .post("http://localhost:8080/api/users/login", body, config)
+        .then((res) => {
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data,
+          });
+        })
+        .catch(({ response }) => {
+          dispatch(returnErrors(response.data, response.status, "Login Fail"));
+          dispatch({
+            type: LOGIN_FAIL,
+          });
+        });
     };
-
-    //converting `Request` body to string
-    const body = JSON.stringify({ email, password });
-
-    axios
-      .post("http://localhost:8080/api/users/login", body, config)
-      .then((res) => {
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(({ response }) => {
-        dispatch(returnErrors(response.data, response.status, "Login Fail"));
-        dispatch({
-          type: LOGIN_FAIL,
-        });
-      });
-  };
 
 /*
  *** Update Profile Data
  */
 //
 export const updateProfile = (userInfo) => (dispatch, getState) => {
-  // Headers
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // };
-
-  //converting `Request` body to string
   const body = JSON.stringify({ ...userInfo });
-  console.log("####body");
-  console.log(body);
-  console.log(userInfo);
+
+  dispatch({ type: USER_LOADING });
 
   axios
     .patch("http://localhost:8080/api/users", body, tokenConfig(getState))

@@ -21,6 +21,8 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case USER_LOADING:
+      console.log('####USER LOADING')
+      console.log(state);
       return {
         ...state,
         isLoading: true,

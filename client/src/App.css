@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.spinner{
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+
 body {
   margin: 0;
 }

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { login } from "../../actions/userActions";
 import { clearErrors } from "../../actions/errorActions";
-import { Form, Input, Button, Typography, Anchor, Row, Col } from "antd";
+import { Form, Input, Button, Typography, Anchor, Row, Col, Space, Spin } from "antd";
 
 import { RadarChartOutlined } from "@ant-design/icons";
 
@@ -14,9 +14,13 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
+    console.log(props)
     console.log(password);
     props.login({ email, password });
   };
+
+
+
 
   const handleInputChange = ({ target }) => {
     console.log(target.value);
@@ -26,70 +30,72 @@ const Login = (props) => {
 
   return (
     <>
-      {props.isAuth ? (
-        <div> Welcome </div>
-      ) : (
-        <Row justify="center" align="middle" style={{ height: "100vh" }}>
-          <Col md={8} span={24}>
-            <RadarChartOutlined className="app_logo" />
-            <Title>
-              Web<span style={{ color: "#ff5722" }}>E</span>ra
+      {(props.isAuth || props.isLoading) ? (
+        <Space size="large" className="spinner">
+          <Spin size="large" />
+        </Space>) : (
+          <Row justify="center" align="middle" style={{ height: "100vh" }}>
+            <Col md={8} span={24}>
+              <RadarChartOutlined className="app_logo" />
+              <Title>
+                Web<span style={{ color: "#ff5722" }}>E</span>ra
             </Title>
-          </Col>
-          <Col md={16} span={24}>
-            <Form onFinish={handleSubmit} className="form">
-              <Form.Item
-                label="Email"
-                labelAlign="left"
-                name="Email"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    type: "email",
-                    required: true,
-                    message: "Please enter your email!",
-                  },
-                ]}
-                placeholder="email"
-              >
-                <Input name="email" />
-              </Form.Item>
+            </Col>
+            <Col md={16} span={24}>
+              <Form onFinish={handleSubmit} className="form">
+                <Form.Item
+                  label="Email"
+                  labelAlign="left"
+                  name="Email"
+                  onChange={handleInputChange}
+                  rules={[
+                    {
+                      type: "email",
+                      required: true,
+                      message: "Please enter your email!",
+                    },
+                  ]}
+                  placeholder="email"
+                >
+                  <Input name="email" />
+                </Form.Item>
 
-              <Form.Item
-                onChange={handleInputChange}
-                label="Password"
-                labelAlign="left"
-                name="Password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password visibilityToggle={false} name="password" />
-              </Form.Item>
+                <Form.Item
+                  onChange={handleInputChange}
+                  label="Password"
+                  labelAlign="left"
+                  name="Password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                >
+                  <Input.Password visibilityToggle={false} name="password" />
+                </Form.Item>
 
-              <Button type="primary" htmlType="submit">
-                Login
+                <Button type="primary" htmlType="submit">
+                  Login
               </Button>
 
-              <Text>
-                <Anchor onClick={props.toggleLayout}>
-                  Or
+                <Text>
+                  <Anchor onClick={props.toggleLayout}>
+                    Or
                   <Link href="#" title="Register" />
-                </Anchor>
-              </Text>
-            </Form>
-          </Col>
-        </Row>
-      )}
+                  </Anchor>
+                </Text>
+              </Form>
+            </Col>
+          </Row>
+        )}
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
   isAuth: state.user.isAuth,
+  isLoading: state.user.isLoading,
   err: state.err,
 });
 

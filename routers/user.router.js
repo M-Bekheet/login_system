@@ -95,6 +95,10 @@ router.post("/login", async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            city: user.city,
+            phone: user.phone,
+            country: user.country,
+            gender: user.gender,
           },
         });
       }
