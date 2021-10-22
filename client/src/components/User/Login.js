@@ -19,8 +19,6 @@ const Login = (props) => {
     props.handleErrMsg()
   };
 
-
-
   const handleInputChange = ({ target }) => {
     if (target.name === "email") setEmail(target.value);
     else if (target.name === "password") setPassword(target.value);

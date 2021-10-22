@@ -16,8 +16,8 @@ const { PORT = 5000, DB_URL, NODE_ENV = "development" } = process.env;
 
 // Basic Middlwares
 const app = express();
-app.use(logger("dev"));
-app.use(express.json());
+app.use(logger("dev"));  // print requests logs
+app.use(express.json()); // makes req.body object available
 app.use(
   express.urlencoded({
     extended: false,
@@ -36,6 +36,7 @@ mongoose.connect(DB_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
+  useFindAndModify: false
 });
 
 app.listen(PORT, () => {

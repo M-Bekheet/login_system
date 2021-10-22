@@ -6,7 +6,11 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
 
+.section_title{
+  margin-top: 80px !important;
+  color: #ddd
 }
 
 body {
@@ -23,6 +27,7 @@ body {
   font-size: 280px;
 }
 
+
 .sidebar {
   position: relative;
   left: 0;
@@ -31,6 +36,10 @@ body {
   width: 256px;
   min-height: max(100%, 100vh);
   padding: 60px 0;
+  background-color: #1f1f1f;
+}
+.sidebar_logo{
+  font-size: 60px;
 }
 
 .sidebar button {

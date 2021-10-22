@@ -24,7 +24,7 @@ const Register = (props) => {
 
 
   useEffect(() => {
-    console.log(props.user);
+    // console.log(props.user);
   })
 
   const handleSubmit = (e) => {

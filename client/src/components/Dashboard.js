@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import Sidebar from "./Sidebar";
 import Profile from "./User/Profile";
 import Timeline from "./User/Timeline";
-import { Col, Row, Anchor, Spin, Space, message } from "antd";
+import { Col, Row, Spin, Space } from "antd";
 
-const { Link } = Anchor;
 
 const Dashboard = (props) => {
   const [shownlayout, setshownlayout] = useState("Timeline");
@@ -14,10 +13,6 @@ const Dashboard = (props) => {
     setshownlayout(layout);
   };
 
-
-
-
-  console.log(shownlayout);
   return props.user.isAuth ? (
     props.isLoading ? (
       <Space size="middle">
@@ -31,7 +26,7 @@ const Dashboard = (props) => {
             <Sidebar handleLayoutChange={handleLayoutChange} />
           </Col>
           <Col flex="auto">
-            {shownlayout === "Profile" ? <Profile /> : <Timeline />}
+            {shownlayout === "Profile" ? <Profile reqErr={props.reqErr} /> : <Timeline />}
           </Col>
         </Row>
 

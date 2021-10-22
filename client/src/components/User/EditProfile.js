@@ -1,59 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { updateProfile } from "../../actions/userActions";
-import { Form, Input, Button, Radio } from "antd";
+import { updateProfile, logout } from "../../actions/userActions";
+import { Form, Input, Button, Radio, Row, Col } from "antd";
 
 
-const EditProfile = ({ user, updateProfile }) => {
-  const [firstName, setFirstName] = useState(user.user.firstName);
-  const [lastName, setLastName] = useState(user.user.lastName);
-  const [phone, setPhone] = useState(user.user.phone);
-  const [email, setEmail] = useState(user.user.email);
-  const [password, setPassword] = useState(user.user.email);
-  const [gender, setGender] = useState(user.user.gender);
-  const [city, setCity] = useState(user.user.city);
-  const [country, setCountry] = useState(user.user.country);
+const EditProfile = ({ user, updateProfile, setIsUpdatingInfo, err, handleNewUpdate }) => {
 
-  console.log(user.user.gender);
+
+  const [info, setInfo] = useState({
+    firstName: user.user.firstName,
+    lastName: user.user.lastName,
+    phone: user.user.phone,
+    email: user.user.email,
+    password: user.user.password,
+    gender: user.user.gender || "Male",
+    city: user.user.city,
+    country: user.user.country,
+  })
+
   const handleInputChange = ({ target }) => {
-    if (target.name === "firstName") setFirstName(target.value);
-    else if (target.name === "lastName") setLastName(target.value);
-    else if (target.name === "phone") setPhone(target.value);
-    else if (target.name === "password") setPassword(target.value);
-    else if (target.name === "city") setCity(target.value);
-    else if (target.name === "country") setCountry(target.value);
-    else if (target.name === "email") setEmail(target.value);
-    else if (target.value === "Female" || target.value == "Male") {
-      setGender(target.value);
+    if (target.value === "Female" || target.value === "Male") {
+      setInfo(info => ({ ...info, gender: target.value }))
+    } else {
+      setInfo(info => ({ ...info, [target.name]: target.value }))
     }
   };
 
   const handleSubmit = (e) => {
-    updateProfile({
-      firstName,
-      lastName,
-      email,
-      password,
-      city,
-      phone,
-      gender,
-      city,
-      country,
-    });
+    updateProfile({ ...info });
+    handleNewUpdate({ ...info })
+
   };
+
+
+  const handleUpdateCancel = () => {
+    setIsUpdatingInfo(false)
+  }
 
   return (
     <Form
       onFinish={handleSubmit}
       className="form profile_form"
       initialValues={{
-        ["First Name"]: firstName,
-        ["Last Name"]: lastName,
-        Phone: phone ? phone : "",
-        Country: country ? country : "",
-        City: city ? city : "",
-        Gender: gender ? gender : "",
-        ["Email"]: email,
+        // ["First Name"]: info.firstName,
+        // ["Last Name"]: info.lastName,
+        // Phone: info.phone ? info.phone : "",
+        // Country: info.country ? info.country : "",
+        // City: info.city ? info.city : "",
+        Gender: info.gender ? info.gender : "Male",
+        // ["Email"]: info.email,
       }}
     >
       <Form.Item
@@ -86,23 +81,6 @@ const EditProfile = ({ user, updateProfile }) => {
         placeholder="Last Name"
       >
         <Input name="lastName" />
-      </Form.Item>
-
-      <Form.Item
-        label="Email"
-        labelAlign="left"
-        name="Email"
-        onChange={handleInputChange}
-        rules={[
-          {
-            type: "email",
-            required: true,
-            message: "Please enter your email!",
-          },
-        ]}
-        placeholder="email"
-      >
-        <Input name="email" />
       </Form.Item>
 
       <Form.Item
@@ -167,7 +145,7 @@ const EditProfile = ({ user, updateProfile }) => {
         <Input name="phone" />
       </Form.Item>
 
-      <Radio.Group onChange={handleInputChange} value={gender} required={true}>
+      <Radio.Group onChange={handleInputChange} value={info.gender} required={true} >
         <Radio value="Female" name="Gender">
           Female
         </Radio>
@@ -176,15 +154,25 @@ const EditProfile = ({ user, updateProfile }) => {
         </Radio>
       </Radio.Group>
 
-      <Button type="primary" htmlType="submit" style={{ marginTop: 20 }}>
-        Update
-      </Button>
+      <Row justify="center">
+        <Col >
+          <Button type="primary" size="large" htmlType="submit" style={{ margin: '10px 20px' }} >
+            Update
+        </Button>
+        </Col>
+        <Col >
+          <Button type="primary" danger size="large" style={{ margin: '10px 20px' }} onClick={handleUpdateCancel} >
+            Cancel
+        </Button>
+        </Col>
+      </Row>
     </Form>
   );
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  err: state.user.err
 });
 
-export default connect(mapStateToProps, { updateProfile })(EditProfile);
+export default connect(mapStateToProps, { updateProfile, logout })(EditProfile);

@@ -10,16 +10,19 @@ import { useState } from "react";
 
 const Home = (props) => {
   const [shownLayout, setShownLayout] = useState("login");
-
+  const [reqErr, setReqErr] = useState(props.err)
 
   const handleErrMsg = () => {
     try {
       if (props.err.msg) {
+        setReqErr(props.err.msg)
         props.err.status >= 400 ? message.error(props.err.msg) : message.success(props.err.msg)
+      } else {
+        setReqErr(null)
       }
     }
     catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   }
 
@@ -30,7 +33,7 @@ const Home = (props) => {
 
 
 
-  const authMenu = <Dashboard />;
+  const authMenu = <Dashboard reqErr={reqErr} />;
 
   const toggleShownLayout = (e) => {
     setShownLayout((prevLayout) =>

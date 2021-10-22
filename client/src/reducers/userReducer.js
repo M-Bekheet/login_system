@@ -36,13 +36,6 @@ export default function userReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
     case UPDATE_SUCCESS:
       localStorage.setItem("user_token", action.payload.token);
-      let newState = {
-        ...state,
-        ...action.payload,
-        isAuth: true,
-        isLoading: false,
-      };
-      console.log(newState)
       return {
         ...state,
         ...action.payload,
@@ -54,7 +47,6 @@ export default function userReducer(state = initialState, action) {
     case LOGOUT_SUCCESS:
     case AUTH_ERROR:
       localStorage.removeItem("user_token");
-      if (action.type === LOGIN_FAIL) { console.log('LOGIN FAIL USER'); console.log(state); }
       return {
         ...state,
         user: null,

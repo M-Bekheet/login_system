@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { logout } from "../actions/userActions";
-import { Menu, Anchor, Button } from "antd";
+import { Menu } from "antd";
 import { MenuFoldOutlined, UserOutlined, LoginOutlined } from "@ant-design/icons";
 
-const { Link } = Anchor;
 
 const Sidebar = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(false);

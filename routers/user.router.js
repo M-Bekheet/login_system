@@ -8,7 +8,10 @@ const log = console.log;
 
 const router = express.Router();
 
-// Create new user
+
+// @route   POST api/users/regiser
+// @desc    Create new user
+// @access  Public
 router.post("/register", async (req, res, next) => {
   try {
     let { firstName, lastName, email, password } = req.body;
@@ -62,7 +65,10 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-// Sign in user and send their token
+
+// @route   POST api/users/login
+// @desc    Sign in user and send their token
+// @access  Publlic
 router.post("/login", async (req, res) => {
   try {
     let { email = "", password = "" } = req.body;
@@ -105,7 +111,10 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Read user data for profile
+
+// @route    GET api/users/profile
+// @desc     Read user data for profile
+// @access  Private
 router.get("/profile", isAuth, async (req, res) => {
   try {
     const user = await User.findById(req.id).select("-password");
@@ -116,7 +125,10 @@ router.get("/profile", isAuth, async (req, res) => {
   }
 });
 
-// Update user info
+
+// @route    PATCH api/users
+// @desc     Update user info
+// @access  Private
 router.patch("/", isAuth, async (req, res, next) => {
   try {
     let update = ({
@@ -131,7 +143,9 @@ router.patch("/", isAuth, async (req, res, next) => {
       country,
     } = req.body);
 
-    log(chalk.green(update));
+    console.log('updating: ')
+    console.log(update)
+    // log(chalk.green(update));
 
     email = email.toLowerCase();
 
@@ -177,11 +191,15 @@ router.patch("/", isAuth, async (req, res, next) => {
       }
     );
   } catch (err) {
-    log(chalk.red(err));
+    log(err);
     res.status(400).send("User not updated");
   }
 });
 
+
+// @route    GET api/users
+// @desc     Logout User
+// @access  Public
 router.get("/logout", (req, res) => {
   try {
     res.send();
@@ -191,6 +209,10 @@ router.get("/logout", (req, res) => {
   }
 });
 
+
+// @route    GET api/users/auth
+// @desc     Check user auth and send their info
+// @access  Private
 router.get("/auth", isAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");

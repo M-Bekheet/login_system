@@ -7,8 +7,6 @@ const initialState = {
 };
 
 export default function errReducer(state = initialState, action) {
-  console.log('ERR REDUCER');
-  console.log(action.type);
   switch (action.type) {
     case GET_ERRORS:
       return {
@@ -19,7 +17,6 @@ export default function errReducer(state = initialState, action) {
     case CLEAR_ERRORS:
       return initialState;
     default:
-      console.log('ERROR REDUCER DEFAULT', action);
       return initialState;
   }
 }

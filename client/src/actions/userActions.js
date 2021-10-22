@@ -15,15 +15,15 @@ import {
   UPDATE_FAIL,
 } from "../actions/types";
 
+
+
+// User loading by auth
 export const loadUser = () => (dispatch, getState) => {
-  // User loading
   dispatch({ type: USER_LOADING });
 
   axios
     .get("http://localhost:8080/api/users/auth", tokenConfig(getState))
     .then((res) => {
-      console.log("$$$$LOADED")
-      console.log(res.data)
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -74,6 +74,8 @@ export const register =
           });
         });
     };
+
+
 
 /*
  *** User Login
