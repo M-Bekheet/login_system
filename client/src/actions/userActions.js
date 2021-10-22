@@ -16,13 +16,12 @@ import {
 } from "../actions/types";
 
 
-
 // User loading by auth
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get("http://localhost:8080/api/users/auth", tokenConfig(getState))
+    .get("/api/users/auth", tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: USER_LOADED,
@@ -60,7 +59,7 @@ export const register =
       const body = JSON.stringify({ firstName, lastName, email, password });
 
       axios
-        .post("http://localhost:8080/api/users/register", body, config)
+        .post("/api/users/register", body, config)
         .then((res) => {
           dispatch({
             type: REGISTER_SUCCESS,
@@ -97,7 +96,7 @@ export const login =
       const body = JSON.stringify({ email, password });
 
       axios
-        .post("http://localhost:8080/api/users/login", body, config)
+        .post("/api/users/login", body, config)
         .then((res) => {
           dispatch({
             type: LOGIN_SUCCESS,
@@ -122,7 +121,7 @@ export const updateProfile = (userInfo) => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .patch("http://localhost:8080/api/users", body, tokenConfig(getState))
+    .patch("/api/users", body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: UPDATE_SUCCESS,

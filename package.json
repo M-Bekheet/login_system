@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node app",
     "server": "nodemon app --ignore './client/",
-    "dev": "concurrently \"cd client/ && npm run start\" \"npm run server\" "
+    "dev": "concurrently \"cd client/ && npm run start\" \"npm run server\" ",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+  },
+  "engines": {
+    "node": "14.17.1"
   },
   "keywords": [],
   "author": "",
