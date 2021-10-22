@@ -17,13 +17,18 @@ const { PORT = 5000, DB_URL, NODE_ENV = "development" } = process.env;
 // Basic Middlwares
 const app = express();
 app.use(logger("dev"));  // print requests logs
-app.use(express.json()); // makes req.body object available
+app.use(express.json());
 app.use(
   express.urlencoded({
     extended: false,
   })
 );
 app.use(cors());
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static("client/build"))
+}
+
 
 //session mdlw should be before routes mdlws
 app.set("trust proxy", 1); // trust first proxy
