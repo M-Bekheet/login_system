@@ -8,6 +8,7 @@ const log = console.log;
 
 const router = express.Router();
 
+// Create new user
 router.post("/register", async (req, res, next) => {
   try {
     let { firstName, lastName, email, password } = req.body;
@@ -65,6 +66,7 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
+// Sign in user and send their token
 router.post("/login", async (req, res) => {
   try {
     let { firstName = "", lastName = "", email = "", password = "" } = req.body;
@@ -103,6 +105,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Read user data for profile
 router.get("/profile", isAuth, async (req, res) => {
   try {
     const user = await User.findById(req.id).select("-password");
@@ -110,6 +113,76 @@ router.get("/profile", isAuth, async (req, res) => {
   } catch (err) {
     console.log(chalk.red(err));
     res.status(500).send();
+  }
+});
+
+// Update user info
+router.patch("/", isAuth, async (req, res, next) => {
+  try {
+    let update = ({
+      firstName,
+      lastName,
+      email,
+      city,
+      password,
+      phone,
+      gender,
+      state,
+      country,
+    } = req.body);
+
+    log(chalk.green(update));
+
+    email = email.toLowerCase();
+
+    if (
+      !firstName ||
+      !lastName ||
+      !password ||
+      !city ||
+      !phone ||
+      !gender ||
+      !city ||
+      !country
+    )
+      return res.status(400).send({
+        msg: "Please enter all fields.",
+      });
+
+    if (password.length < 6)
+      return res.status(400).send({
+        msg: "Please make sure that your password length is longer than 5 letters.",
+      });
+
+    update.password = await bcrypt.hash(password, 8);
+
+    const user = await User.findOneAndUpdate({ email }, update);
+    if (!user) throw new Error();
+
+    jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: 21600 },
+      (err, token) => {
+        if (err) throw err;
+        user.save();
+        res.send({
+          token,
+          user: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            country: user.country,
+            city: user.city,
+            phone: user.phone,
+          },
+        });
+      }
+    );
+  } catch (err) {
+    log(chalk.red(err));
+    res.status(400).send({ msg: "User not updated" });
   }
 });
 

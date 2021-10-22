@@ -32,6 +32,26 @@ const userSchema = new mongoose.Schema(
       required: true,
       minLength: 6,
     },
+    phone: {
+      type: String,
+      unique: true,
+    },
+    gender: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    registeredAt: {
+      type: Date,
+      default: Date.now,
+    },
     isAdmin: {
       type: Boolean,
       default: false,

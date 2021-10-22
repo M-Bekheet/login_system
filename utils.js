@@ -5,6 +5,8 @@ const log = console.log;
 
 const isAuth = (req, res, next) => {
   const token = req.header("x-auth-token");
+
+  log(chalk.red(token));
   // Check for token
   if (!token)
     return res.status(401).json({ msg: "Authorization denied. No Token!" });
