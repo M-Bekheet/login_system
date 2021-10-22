@@ -1,0 +1,107 @@
+.center {
+  text-align: center;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.app_logo {
+  font-size: 280px;
+}
+
+.sidebar {
+  width: 256px;
+  height: 100vh;
+  padding: 60px 0;
+}
+
+.sidebar button {
+  margin: 80px auto 0;
+  text-align: center;
+}
+
+.sidebar .logout-btn {
+  margin-top: 80px;
+  margin-left: -20px;
+}
+
+.form {
+  max-width: 50%;
+  margin: auto;
+  padding: 80px 20px;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.profile_form {
+  padding-bottom: 0;
+}
+
+.form label {
+  display: inline-block;
+  width: 100px;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.form input,
+.form label .form input.ant-input {
+  height: 30px;
+  display: inline-block;
+}
+
+.form input {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.ant-anchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-anchor-wrapper {
+  margin-top: 20px;
+}
+.ant-anchor-link {
+  padding: 15px 5px;
+}
+.ant-anchor-ink::before {
+  background: transparent;
+}
+
+@media (max-width: 1199px) {
+  .form {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .app_logo {
+    font-size: 60px;
+    margin-top: 80px;
+  }
+  .form {
+    border: none;
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 576px) {
+  .form {
+    padding-top: 20px;
+  }
+  .form input {
+    margin: 0;
+  }
+  .ant-form-item {
+    margin-bottom: 10px;
+  }
+}
